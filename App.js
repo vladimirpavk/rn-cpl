@@ -6,11 +6,32 @@ export default function App() {
   const [goals, setGoals] = useState([]);
 
   const goalButtonPressed = (event)=>{
-    console.log("Goals", goals);
-    //setGoals(...goals, event.target.value);
-    setGoals([...goals, goal]);
+    console.log("Goals", goals);    
+    setGoals([...goals, {
+      key:Math.random(),
+      goal:goal
+    }]);
     setGoal('');
   }
+
+  const onGoalItemPressed = (key)=>{
+    //console.log(key);
+    let newGoalsArray = goals.filter((goal)=>{
+      return goal.key !== key
+    });
+    setGoals(newGoalsArray);
+  }
+
+  const goalList = goals===[] ? null : goals.map(
+    (goal)=>{
+      return <Text
+        style={styles.goalItem}
+        onPress={()=>onGoalItemPressed(goal.key)}
+        >
+        {goal.goal}
+      </Text>;
+    }            
+  ); 
 
   return (
     <View style={styles.screen}>
@@ -28,7 +49,9 @@ export default function App() {
             color="lightblue"
         />      
       </View>      
-      <View style={styles.screen}></View>
+      <View style={styles.goalList}>
+        {goalList}
+      </View>
     </View>
   );
 }
@@ -38,6 +61,21 @@ const styles = StyleSheet.create({
     margin: 10,
     marginTop: 40,
     borderWidth: 1,
+  },
+  goalList:{
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1
+  },
+  goalItem:{
+    marginTop: 20,
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 5,
+    paddingRight: 5,
+    borderWidth: 1,
+    width: "80%"
   },  
   inputContainer: {       
     padding: 10,
