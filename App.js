@@ -1,17 +1,26 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Button,
+  ScrollView ,
+  FlatList
+} from 'react-native';
 
 export default function App() {
   const [goal, setGoal] = useState('');
   const [goals, setGoals] = useState([]);
 
   const goalButtonPressed = (event)=>{
-    console.log("Goals", goals);    
-    setGoals([...goals, {
-      key:Math.random(),
+    //console.log("Goals", goals);    
+    if(goal.length === 0) return;
+    setGoals((oldGoals)=>[...oldGoals, {
+      key:Math.random().toString(),
       goal:goal
     }]);
-    setGoal('');
+    //setGoal('');
   }
 
   const onGoalItemPressed = (key)=>{
@@ -25,6 +34,7 @@ export default function App() {
   const goalList = goals===[] ? null : goals.map(
     (goal)=>{
       return <Text
+        key={goal.key}  
         style={styles.goalItem}
         onPress={()=>onGoalItemPressed(goal.key)}
         >
@@ -48,10 +58,19 @@ export default function App() {
             title="+"
             color="lightblue"
         />      
-      </View>      
-      <View style={styles.goalList}>
-        {goalList}
-      </View>
+      </View>    
+      <FlatList
+        data={goals}
+        renderItem={
+          (itemData)=>{
+            return(
+              <View style={styles.goalList}>
+                <Text>{itemData.item.goal}</Text>
+              </View>
+            )
+          }
+        }
+      />
     </View>
   );
 }
