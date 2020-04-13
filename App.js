@@ -9,11 +9,13 @@ import {
   FlatList
 } from 'react-native';
 
-export default function App() {
-  const [goal, setGoal] = useState('');
+import GoalItem from './components/GoalItem.js';
+import GoalInput from './components/GoalInput.js';
+
+export default function App() {  
   const [goals, setGoals] = useState([]);
 
-  const goalButtonPressed = (event)=>{
+  const goalButtonPressed = (goal)=>{
     //console.log("Goals", goals);    
     if(goal.length === 0) return;
     setGoals((oldGoals)=>[...oldGoals, {
@@ -45,32 +47,20 @@ export default function App() {
 
   return (
     <View style={styles.screen}>
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="Type your goal"
-          onChangeText={(value)=>setGoal(value)}
-          value={goal}
-          style={styles.goalText}
-        />  
-        <Button
-            style={styles.buttonStyle}
-            onPress={goalButtonPressed}
-            title="+"
-            color="lightblue"
-        />      
-      </View>    
-      <FlatList
-        data={goals}
-        renderItem={
-          (itemData)=>{
-            return(
-              <View style={styles.goalList}>
-                <Text>{itemData.item.goal}</Text>
-              </View>
-            )
-          }
-        }
+      <GoalInput 
+        addGoalButtonPressed={goalButtonPressed}
       />
+      <View style={styles.goalList}>
+        <FlatList
+          data={goals}
+          renderItem={
+            (itemData)=>
+              <GoalItem
+                title={itemData.item.goal}
+                onPressed={()=>{onGoalItemPressed(itemData.item.key)}}/>                                                
+          }          
+        />
+      </View>      
     </View>
   );
 }
@@ -86,26 +76,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1
-  },
-  goalItem:{
-    marginTop: 20,
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 5,
-    paddingRight: 5,
-    borderWidth: 1,
-    width: "80%"
-  },  
-  inputContainer: {       
-    padding: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-evenly'
-  },
-  goalText:{
-    borderWidth: 2,
-    width: "80%"
-  },
-  buttonStyle:{
-    width: 20
-  },
+  }
 });
