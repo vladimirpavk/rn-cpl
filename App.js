@@ -14,6 +14,7 @@ import GoalInput from './components/GoalInput.js';
 
 export default function App() {  
   const [goals, setGoals] = useState([]);
+  const [isGoalInputVisible, setGoalInputVisible] = useState(false);
 
   const goalButtonPressed = (goal)=>{
     //console.log("Goals", goals);    
@@ -27,10 +28,17 @@ export default function App() {
 
   const onGoalItemPressed = (key)=>{
     //console.log(key);
-    let newGoalsArray = goals.filter((goal)=>{
+    /* let newGoalsArray = goals.filter((goal)=>{
       return goal.key !== key
     });
-    setGoals(newGoalsArray);
+    setGoals(newGoalsArray); */
+    setGoals(
+      (oldGoalsArray)=>{
+        oldGoalsArray.filter(
+          (goal)=>goal.key !== key
+        )
+      }
+    )
   }
 
   const goalList = goals===[] ? null : goals.map(
@@ -47,7 +55,12 @@ export default function App() {
 
   return (
     <View style={styles.screen}>
+      <Button
+        title="Add new goal"
+        onPress={()=>{setGoalInputVisible(true)}}
+      />
       <GoalInput 
+        visible={isGoalInputVisible}
         addGoalButtonPressed={goalButtonPressed}
       />
       <View style={styles.goalList}>

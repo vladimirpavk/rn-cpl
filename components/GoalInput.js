@@ -3,27 +3,32 @@ import {
     View,
     TextInput,
     Button,
-    StyleSheet
+    StyleSheet,
+    Modal
 } from 'react-native';
 
 const GoalItem = (props)=>{
     const [goal, setGoal] = useState('');
 
     return(
-    <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="Type your goal"
-          onChangeText={(value)=>setGoal(value)}
-          value={goal}
-          style={styles.goalText}
-        />  
-        <Button
-            style={styles.buttonStyle}
-            onPress={()=>props.addGoalButtonPressed(goal)}
-            title="+"
-            color="lightblue"
-        />      
-    </View>    
+        <Modal
+            visible={false}
+            transparent={true}>
+            <View style={styles.inputContainer}>
+                <TextInput
+                placeholder="Type your goal"
+                onChangeText={(value)=>setGoal(value)}                  
+                value={goal}
+                style={styles.goalText}
+                />  
+                <Button
+                    style={styles.buttonStyle}
+                    onPress={()=>props.addGoalButtonPressed(goal)}                    
+                    title="+"
+                    color="lightblue"
+                />      
+            </View>    
+        </Modal>    
     );
 }
 
