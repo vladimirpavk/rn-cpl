@@ -5,14 +5,23 @@ import {
   Text
 } from 'react-native';
 
-export default function App() {  
+import Header from './components/Header';
+import StartGameScreen from './screens/StartGameScreen';
 
-
-  return (
-    <View>
-      <Text>New App</Text>
+const App = ()=>{
+  return(
+    <View style={styles.container}>
+      <Header title="Guess a number" />
+      <StartGameScreen />
     </View>
-  );
+  )
 }
 
-const styles = StyleSheet.create({});
+export default App; 
+
+const styles = StyleSheet.create({
+  container:{
+    flexDirection: 'column',
+    flex:1
+  }
+});
