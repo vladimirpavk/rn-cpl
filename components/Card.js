@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 
 const Card = (props)=>{
     return(
-        <View style={{...styles.shadow, ...props.style}}>
+        <View style={[props.style, styles.shadow]}>
             {props.children}
         </View>
     );
@@ -18,7 +18,9 @@ const styles = StyleSheet.create({
         shadowColor: 'black',
         shadowOffset: { width: 1, height: 2},
         shadowRadius: 6,
-        shadowOpacity: 0.3
+        shadowOpacity: 0.3,
+        borderWidth: 1,
+        borderColor: 'green'
     }
 })
 
