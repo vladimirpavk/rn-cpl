@@ -17,9 +17,20 @@ const StartGameScreen = (props)=>{
     const [enteredNumber, setEnteredNumber] = useState('');
     const [confirmed, setConfirmed] = useState(false);
     const [confirmedNumber, setConfirmedNumber] = useState('');
+    const [errorMessageShown, setErrorMessageShown] = useState(false);
+
+    const startGamePressed = ()=>{
+        console.log('Game started');
+    }
 
     const numberInputHandler = (inputText)=>{
-        setEnteredNumber(inputText.replace(/[^0-9]/g, ''))
+        if(inputText.length > 2)
+        {
+            setErrorMessageShown(true);
+            return;
+        }
+        else setErrorMessageShown(false);
+        setEnteredNumber(inputText.replace(/[^0-9]/g, ''));
     }
 
     const resetInputHandler = ()=>{
@@ -30,6 +41,9 @@ const StartGameScreen = (props)=>{
     let confirmedText;
 
     const confirmInputHandler = ()=>{
+        
+        setErrorMessageShown(false);
+
          if(isNaN(enteredNumber) || enteredNumber < 1  ||  enteredNumber > 99){
              if(!Platform.OS==='web')
              {
@@ -56,13 +70,26 @@ const StartGameScreen = (props)=>{
     }
 
     if(confirmed){
-        confirmedText=<Text style={{marginTop: 10, textAlign: 'center'}}>You choose {confirmedNumber}!</Text>
+        confirmedText=(
+            <Card width="40%">
+                <Text style={{textAlign: 'center'}}>You choose</Text>                 
+                <View style={styles.confirmedNumber}>
+                    <Text style={{fontSize: 56}}>
+                        {confirmedNumber}
+                    </Text>                    
+                </View>
+                <Button
+                    title="START GAME"
+                    color={CPalete.primary}
+                    onPress={startGamePressed} />
+            </Card>
+        );
     }
 
     return(
         <View style={styles.screen}>
             <Text style={styles.title}>Start a New Game</Text>
-                <Card>
+                <Card width="80%">
                     <View>
                         <Text style={{fontSize: 15, textAlign: 'center'}}>Select a number</Text>
                         <TextInput
@@ -82,10 +109,18 @@ const StartGameScreen = (props)=>{
                                 title="Confirm"
                                 color={CPalete.primary}
                                 onPress={confirmInputHandler}></Button>        
-                        </View>
-                        {confirmedText}
+                        </View>                        
                     </View>                    
-                </Card>                
+                </Card>        
+                {confirmedText}        
+                {            
+                    errorMessageShown ? 
+                        <Card style={{backgroundColor: CPalete.secondary}}>
+                            <Text>
+                                Number must be between 0 and 99
+                            </Text>
+                        </Card>  : null
+                }
         </View>
     );
 }
@@ -116,8 +151,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
         marginTop:20
+    },     
+    confirmedNumber:{
+        borderWidth: 2,
+        borderColor: CPalete.secondary,
+        padding: 10,
+        borderRadius: 10,
+        marginVertical: 10,
+        alignItems: 'center',
+        justifyContent: 'center'
     }
-
 })
 
 
