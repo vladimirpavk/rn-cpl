@@ -7,12 +7,21 @@ import {
 
 import Header from './components/Header';
 import StartGameScreen from './screens/StartGameScreen';
+import GameScreen from './screens/GameScreen';
 
 const App = ()=>{
+
+  const [userNumber, setUserNumber] = useState();  
+  
+  let content;
+
+  if(!userNumber) content=<StartGameScreen gameStarted={setUserNumber}/>
+  else content=<GameScreen imaginedNumber={userNumber}/>;
+
   return(
     <View style={styles.container}>
       <Header title="Guess a number" />
-      <StartGameScreen />
+      {content}
     </View>
   )
 }

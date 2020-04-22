@@ -19,10 +19,6 @@ const StartGameScreen = (props)=>{
     const [confirmedNumber, setConfirmedNumber] = useState('');
     const [errorMessageShown, setErrorMessageShown] = useState(false);
 
-    const startGamePressed = ()=>{
-        console.log('Game started');
-    }
-
     const numberInputHandler = (inputText)=>{
         if(inputText.length > 2)
         {
@@ -81,7 +77,7 @@ const StartGameScreen = (props)=>{
                 <Button
                     title="START GAME"
                     color={CPalete.primary}
-                    onPress={startGamePressed} />
+                    onPress={()=>props.gameStarted(confirmedNumber)} />
             </Card>
         );
     }
