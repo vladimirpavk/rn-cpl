@@ -8,8 +8,8 @@ const Card = (props)=>{
             marginTop: 20,
             justifyContent: 'center',
             padding: 20,
-            width: '{props.width}',
             shadowColor: 'black',
+            width:`${props.width}`,
             shadowOffset: { width: 1, height: 2},
             shadowRadius: 6,
             shadowOpacity: 0.3,
@@ -17,9 +17,9 @@ const Card = (props)=>{
             borderColor: 'green'
         }
     });
-
+    
     return(        
-        <View style={[props.style, styles.shadow]}>
+        <View style={styles.shadow}>
             {props.children}
         </View>
     );
