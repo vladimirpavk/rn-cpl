@@ -1,62 +1,94 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {
     StyleSheet,
     View,
     Text,
-    Button
+    Button,
+    Platform
 } from 'react-native';
 
 import Card from '../components/Card';
 import CPalete from '../Colors';
 
-const generateRandomNumber = (min, max, exclude)=>{
+const generateRandomNumber = (min, max)=>{
     min = Math.ceil(min);
     max = Math.floor(max);
     const rndNumber = Math.floor(Math.random() * (max-min)) + min;
 
-    console.log(min, max, exclude);
+    //console.log(min, max, rndNumber);
 
-    if(rndNumber===exclude){
-        return generateRandomNumber(min, max, exclude);
-    }
     return rndNumber;
 }
 
 const GameScreen = (props)=>{
-    const [computerNumber, setComputerNumber] = useState(
-        generateRandomNumber(0, 99, null)
-    );
+    console.log(props);
 
-    //console.log(computerNumber, parseInt(props.imaginedNumber));
+    const [computerNumber, setComputerNumber] = useState(
+        generateRandomNumber(0, 100)
+    );      
+
+    const [minValue, setMinValue] = useState(0);
+    const [maxValue, setMaxValue] = useState(100);
+
+    const numOfTries = useRef(0);
+    const buttonsDisabled = useRef(false);
+
+    //console.log('computerNumber', computerNumber, 'minValue', minValue, 'maxValue', maxValue);
 
     const lowerNumber = ()=>{
+        if(computerNumber < props.imaginedNumber)
+        {
+            if(Platform.OS==="web"){
+                alert('Ne laži !!!');   
+                return;
+            }                
+        }
+        
+        numOfTries.current++;
+        setMaxValue(computerNumber);
         setComputerNumber(
-            (oldValue)=>{
-                return generateRandomNumber(props.imaginedNumber, oldValue, oldValue)
-            });    
+            (oldValue)=>generateRandomNumber(oldValue - 1, minValue));            
     }
 
     const greaterNumber = ()=>{
+        if(computerNumber > props.imaginedNumber){
+            if(Platform.OS==="web"){
+                alert('Ne laži !!!');
+                return;
+            }
+        }
+        
+        numOfTries.current++;
+        setMinValue(computerNumber);
         setComputerNumber(
-            (oldValue)=>{
-                return generateRandomNumber(computerNumber, props.imaginedNumber, oldValue)
-            });
-        //console.log(computerNumber);
+            (oldValue)=>generateRandomNumber(oldValue + 1, maxValue));
     }    
 
+    //console.log('computerNumber', computerNumber, 'imaginedNumber', props.imaginedNumber);
+  
     let endGame;
-    if(computerNumber===props.imaginedNumber){
-        console.log('End game...');
-        endGame=<Button
-            title="START A NEW GAME"
-            color={CPalete.primary}
-            onPress={endGame} />
+    if(parseInt(computerNumber)===parseInt(props.imaginedNumber)){
+        //console.log('End game...');
+        buttonsDisabled.current = true;
+        
+        endGame=(
+            <View>
+                <Text style={{marginTop: 10, marginBottom: 10, fontSize: 20, color: 'red'}}>
+                    Computer guessed in {numOfTries.current} tries...</Text>
+                <Button
+                    onPress={props.newGame}
+                    style={{marginTop: 10}}
+                    title="START A NEW GAME"
+                    color={CPalete.primary}/>
+            </View>                        
+        );
     }
 
 
     return(
         <View style={styles.screen}>           
             <Text style={{fontSize: 36}}>Your number {props.imaginedNumber}</Text>
+            <Text style={{fontSize: 24}}>Try : {numOfTries.current}</Text>
             <View style={styles.screen}>
                 <Card width="60%">
                     <Text style={{textAlign: 'center'}}>Computer guess</Text>                 
@@ -69,11 +101,13 @@ const GameScreen = (props)=>{
                         <Button
                             title="LOWER"
                             color={CPalete.primary}
-                            onPress={lowerNumber} />
+                            onPress={lowerNumber} 
+                            disabled={buttonsDisabled.current}/>
                         <Button
                             title="GREATER"
                             color={CPalete.primary}
-                            onPress={greaterNumber} />
+                            onPress={greaterNumber} 
+                            disabled={buttonsDisabled.current}/>
                     </View>
                     {endGame}
                 </Card>

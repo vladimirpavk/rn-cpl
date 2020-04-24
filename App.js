@@ -12,11 +12,15 @@ import GameScreen from './screens/GameScreen';
 const App = ()=>{
 
   const [userNumber, setUserNumber] = useState();  
+
+  const resetUserNumber = ()=>{
+    setUserNumber(null);
+  }
   
   let content;
 
   if(!userNumber) content=<StartGameScreen gameStarted={setUserNumber}/>
-  else content=<GameScreen imaginedNumber={userNumber}/>;
+  else content=<GameScreen newGame={resetUserNumber} imaginedNumber={userNumber}/>;  
 
   return(
     <View style={styles.container}>
