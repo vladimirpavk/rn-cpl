@@ -68,14 +68,14 @@ const StartGameScreen = (props)=>{
     if(confirmed){
         confirmedText=(
             <Card width="40%">
-                <Text style={{textAlign: 'center'}}>You choose</Text>                 
+                <Text style={{textAlign: 'center'}}>Izabrali ste broj</Text>                 
                 <View style={styles.confirmedNumber}>
                     <Text style={{fontSize: 56}}>
                         {confirmedNumber}
                     </Text>                    
                 </View>
                 <Button
-                    title="START GAME"
+                    title="ZAPOČNI IGRU"
                     color={CPalete.primary}
                     onPress={()=>props.gameStarted(confirmedNumber)} />
             </Card>
@@ -84,10 +84,10 @@ const StartGameScreen = (props)=>{
 
     return(
         <View style={styles.screen}>
-            <Text style={styles.title}>Start a New Game</Text>
+            <Text style={styles.title}>NOVA IGRA</Text>
                 <Card width="80%">
                     <View>
-                        <Text style={{fontSize: 15, textAlign: 'center'}}>Select a number</Text>
+                        <Text style={{fontSize: 15, textAlign: 'center'}}>Zamisli broj i upiši ga u polje ispod</Text>
                         <TextInput
                             style={styles.textInput}                            
                             keyboardType='numeric'
@@ -97,12 +97,12 @@ const StartGameScreen = (props)=>{
                         />
                         <View style={styles.buttonContainer}>
                             <Button
-                                title="Reset"
+                                title="Obriši"
                                 color={CPalete.secondary}
                                 onPress={resetInputHandler}
                             ></Button>
                             <Button
-                                title="Confirm"
+                                title="Potvrdi"
                                 color={CPalete.primary}
                                 onPress={confirmInputHandler}></Button>        
                         </View>                        

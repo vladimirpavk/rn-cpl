@@ -66,8 +66,10 @@ const GameScreen = (props)=>{
 
     //console.log('computerNumber', computerNumber, 'imaginedNumber', props.imaginedNumber);
   
-    let endGame;
     if(parseInt(computerNumber)===parseInt(props.imaginedNumber)){
+        props.numberGuessed(numOfTries.current);
+    }
+    /* if(parseInt(computerNumber)===parseInt(props.imaginedNumber)){
         //console.log('End game...');
         buttonsDisabled.current = true;
         
@@ -81,17 +83,15 @@ const GameScreen = (props)=>{
                     title="START A NEW GAME"
                     color={CPalete.primary}/>
             </View>                        
-        );
-    }
-
-
+        )}; */
+    
     return(
         <View style={styles.screen}>           
-            <Text style={{fontSize: 36}}>Your number {props.imaginedNumber}</Text>
-            <Text style={{fontSize: 24}}>Try : {numOfTries.current}</Text>
+            <Text style={{fontSize: 36}}>Vaš broj je {props.imaginedNumber}</Text>
+            <Text style={{fontSize: 24}}>Pokušaj: {numOfTries.current}</Text>
             <View style={styles.screen}>
                 <Card width="60%">
-                    <Text style={{textAlign: 'center'}}>Computer guess</Text>                 
+                    <Text style={{textAlign: 'center', fontSize: 16}}>Da li je ovo Vaš broj ?</Text>                 
                     <View style={styles.confirmedNumber}>
                         <Text style={{fontSize: 56}}>
                             {computerNumber}
@@ -99,17 +99,16 @@ const GameScreen = (props)=>{
                     </View>
                     <View style={styles.buttonContainer}>
                         <Button
-                            title="LOWER"
+                            title="MANJE"
                             color={CPalete.primary}
                             onPress={lowerNumber} 
                             disabled={buttonsDisabled.current}/>
                         <Button
-                            title="GREATER"
+                            title="VIŠE"
                             color={CPalete.primary}
                             onPress={greaterNumber} 
                             disabled={buttonsDisabled.current}/>
-                    </View>
-                    {endGame}
+                    </View>                                
                 </Card>
             </View>
         </View>
