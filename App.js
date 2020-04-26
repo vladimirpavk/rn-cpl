@@ -5,15 +5,36 @@ import {
   Text
 } from 'react-native';
 
+import * as Font from 'expo-font';
+import * as Expo from 'expo';
+
 import Header from './components/Header';
 import StartGameScreen from './screens/StartGameScreen';
 import GameScreen from './screens/GameScreen';
 import GameOverScreen from './screens/GameOverScreen';
 
-const App = ()=>{
+const loadFonts = ()=>{
+  return Font.loadAsync(
+    {
+      'roboto-bold' : require('./assets/fonts/Roboto-Bold.ttf'),
+      'roboto-regular' : require('./assets/fonts/Roboto-Regular.ttf')
+    }
+  );
+}
 
+const App = ()=>{
   const [userNumber, setUserNumber] = useState();
   const [numOfTryes, setNumOfTryes] = useState(null);
+  const [fontLoaded, setFontLoaded] = useState(false);
+
+  if(!fontLoaded){
+    return (
+      <Expo.AppLoading
+        startAsync={loadFonts}
+        onFinish={()=>setFontLoaded(true)}
+        onError={(err)=>console.log(err)} />
+    )      
+  }  
 
   const resetUserNumber = ()=>{
     setUserNumber(null);

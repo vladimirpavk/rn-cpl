@@ -23,7 +23,8 @@ const styles=StyleSheet.create({
     headerTitle:{
         color: 'black',
         fontSize: 30,
-        fontWeight: 'bold'        
+        fontWeight: 'bold',
+        fontFamily: 'roboto-regular'        
     }
 })
 
